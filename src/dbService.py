@@ -1,4 +1,5 @@
 import psycopg2
+import regex
 
 class PostgreSQLService:
 	def __init__(self, database="postgres", user="postgres", password="pass123", host="127.0.0.1", port="5432"):

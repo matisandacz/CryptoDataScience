@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mutt"
+version = "0.1.0"
+description = ""
+authors = ["Matias <modandyxx@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+psycopg2 = "^2.9.7"
+regex = "^2023.8.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
