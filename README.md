@@ -1,13 +1,9 @@
 # CryptoDataScience
 Fun project to experiment with Crypto tokens. 
 
-# How to run?
+# Start postgres
+docker-compose up
 
-# 1) Start postgres
-   
-  docker-compose up
-
-# 2) Install dependencies
-
-   poetry install
-   poetry run python your_script.py
+# Install dependencies
+poetry install
+poetry run python your_script.py
