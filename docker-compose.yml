@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    ports: 
+      - "5432:5432"
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=root
+      - POSTGRES_DB=root
+      - POSTGRES_PASSWORD=example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+      
