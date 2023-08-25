@@ -6,4 +6,5 @@ docker-compose up
 
 # Install dependencies
 poetry install
+
 poetry run python your_script.py
