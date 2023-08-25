@@ -1,7 +1,7 @@
 # CryptoDataScience
 Fun project to experiment with Crypto tokens. 
 
-# Start postgres
+# Start postgres container
 docker-compose up
 
 # Install dependencies
