@@ -5,6 +5,7 @@ import json
 from urllib.parse import urljoin, urlencode
 from dateutil.parser import parse as parse_iso8601
 import logging
+import os
 
 logging.getLogger().setLevel(level="INFO")
 
@@ -30,6 +31,7 @@ query_parameters = {
 
 url = build_coin_history_url(coin_name, query_parameters)
 
+response_path = "data/"
 try:
 
     # Perform the HTTP Request
@@ -40,8 +42,12 @@ try:
     # Raise an error if the response was an HTTP Error
     r.raise_for_status()
 
+    # Create a new directory if it does not exist
+    if not os.path.exists(response_path):
+        os.makedirs(response_path)
+
     # Creates the file if it doesnt exist, and save json
-    with open(f"{args.id}-{args.date}.json", "w") as outfile:
+    with open(f"{response_path}/{args.id}-{args.date}.json", "w") as outfile:
         json.dump(r.json(), outfile)
 
 except Exception as err:
