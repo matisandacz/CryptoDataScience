@@ -36,8 +36,8 @@ try:
     logging.info(f"Performing an HTTP request to {url}")
     r = requests.get(url)
     logging.info(f"Status code was {r.status_code}")
+
     # Raise an error if the response was an HTTP Error
-    
     r.raise_for_status()
 
     # Creates the file if it doesnt exist, and save json
