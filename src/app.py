@@ -10,7 +10,7 @@ logging.getLogger().setLevel(level="INFO")
 
 parser = argparse.ArgumentParser(description='Download Crypto Data')
 parser.add_argument('-i', '--id', type=str, help='Coin identifier (e.g. bitcoin)', required=True)
-parser.add_argument('-d', '--date', type=str, help='ISO8601 date (e.g. 2017-12-30)', required=True)
+parser.add_argument('-d', '--date', type=str, help='ISO8601 date (e.g. 30-12-2022)', required=True)
 args = parser.parse_args()
 
 base_url = 'https://api.coingecko.com/api/v3/'
@@ -41,7 +41,7 @@ try:
     r.raise_for_status()
 
     # Creates the file if it doesnt exist, and save json
-    with open("response.json", "w") as outfile:
+    with open(f"{args.id}-{args.date}.json", "w") as outfile:
         json.dump(r.json(), outfile)
 
 except Exception as err:
