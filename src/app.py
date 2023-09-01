@@ -95,6 +95,6 @@ def run_batch_mode(args):
     pass
 
 
-# Code will only run if executed from a command line
+# Script will only run when executed from the command line
 if __name__ == "__main__":
     main()
