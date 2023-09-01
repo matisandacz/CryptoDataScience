@@ -1,5 +1,5 @@
 # CryptoDataScience
-Fun project to experiment with Crypto tokens. 
+Fun Data Science project to experiment with Crypto Tokens. 
 
 # Start postgres container
 docker-compose up
