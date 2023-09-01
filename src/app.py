@@ -5,10 +5,21 @@ from urllib.parse import urljoin, urlencode
 import logging
 import os
 from enum import Enum
+from datetime import datetime, timedelta, date
+from tqdm import tqdm
+import time
+
 
 class RunMode(Enum):
     SINGLE = 1,
     BATCH = 2
+
+def parse_iso8601(date_string):
+    try:
+        return datetime.strptime(date_string, '%Y-%m-%d')
+    except ValueError:
+        raise argparse.ArgumentTypeError("Invalid date format. Please use YYYY-MM-DD format.")
+
 
 # TODO: Parameter validation
 def main():
@@ -20,13 +31,13 @@ def main():
     # Subparser for single mode
     parser_mode1 = subparsers.add_parser('single', help='Downloads Crypto Data from one date')
     parser_mode1.add_argument('-i', '--id', type=str, help='Coin identifier (e.g. bitcoin)', required=True)
-    parser_mode1.add_argument('-d', '--date', type=str, help='ISO8601 date (DD-MM-YYYY)', required=True)
+    parser_mode1.add_argument('-d', '--date', type=parse_iso8601, help='ISO8601 date (YYYY-MM-DD)', required=True)
 
     # Subparser for batch mode
     parser_mode2 = subparsers.add_parser('batch', help='Downloads Crypto Data from a range of dates')
     parser_mode2.add_argument('-i', '--id', type=str, help='Coin identifier (e.g. bitcoin)', required=True)
-    parser_mode2.add_argument('-s', '--start', type=str, help='Start ISO8601 date (DD-MM-YYYY)', required=True)
-    parser_mode2.add_argument('-e', '--end', type=str, help='End ISO8601 date (DD-MM-YYYY)', required=True)
+    parser_mode2.add_argument('-s', '--start', type=parse_iso8601, help='Start ISO8601 date (YYYY-MM-DD)', required=True)
+    parser_mode2.add_argument('-e', '--end', type=parse_iso8601, help='End ISO8601 date (YYYY-MM-DD)', required=True)
 
     args = parser.parse_args()
 
@@ -53,7 +64,7 @@ def build_coin_history_url(coin_name, query_params):
 def getTokenData(coin_name, date):
 
     query_parameters = {
-        'date': date
+        'date': date.strftime('%d-%m-%Y')
     }
 
     url = build_coin_history_url(coin_name, query_parameters)
@@ -74,13 +85,16 @@ def saveTokenData(coin_name, date, tokenData, response_path = "data/"):
         os.makedirs(response_path)
 
     # Save json
-    with open(f"{response_path}/{coin_name}-{date}.json", "w") as outfile:
+    with open(f"{response_path}/{coin_name}-{date.strftime('%Y-%m-%d')}.json", "w") as outfile:
         json.dump(tokenData, outfile)
 
 """
 Runs this application in single mode
 """
 def run_single_mode(args):
+
+    # TODO: Convert from YYYY-MM-DD -> DD-MM-YYYY
+
     try:
         tokenData = getTokenData(args.id, args.date)
         saveTokenData(args.id, args.date, tokenData)
@@ -89,11 +103,16 @@ def run_single_mode(args):
 
     
 """
-TODO: Runs this application in batch mode
+Runs this application in batch mode
 """
 def run_batch_mode(args):
-    pass
 
+    delta = args.end - args.start 
+
+    for i in tqdm(range(delta.days + 1)):
+        date = args.start + timedelta(days=i)
+        tokenData = getTokenData(args.id, date)
+        saveTokenData(args.id, date, tokenData)
 
 # Script will only run when executed from the command line
 if __name__ == "__main__":
