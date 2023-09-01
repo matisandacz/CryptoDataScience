@@ -10,7 +10,7 @@ class RunMode(Enum):
     SINGLE = 1,
     BATCH = 2
 
-# Parameter validations
+# TODO: Parameter validation
 def main():
 
     parser = argparse.ArgumentParser(description='Crypto Data Science Application')
@@ -39,7 +39,7 @@ def main():
     else:
         parser.print_help()
 
-# Delegate to a service.
+# TODO: Delegate to a service.
 def build_coin_history_url(coin_name, query_params):
     base_url = 'https://api.coingecko.com/api/v3/'
     endpoint = f'coins/{coin_name}/history'
@@ -49,7 +49,7 @@ def build_coin_history_url(coin_name, query_params):
         full_url = f'{full_url}?{query_string}'
     return full_url
 
-# Delegate to a service.
+# TODO: Delegate to a service.
 def getTokenData(coin_name, date):
 
     query_parameters = {
@@ -89,7 +89,7 @@ def run_single_mode(args):
 
     
 """
-Runs this application in batch mode
+TODO: Runs this application in batch mode
 """
 def run_batch_mode(args):
     pass
