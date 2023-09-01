@@ -1,2 +1,3 @@
 # Poetry virtual environment. Generated with poetry install
 .venv
+/src/data
